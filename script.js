@@ -1,32 +1,26 @@
-const envelopeButton = document.getElementById('envelopeButton');
+const seal = document.getElementById('seal');
 const envelope = document.getElementById('envelope');
 const intro = document.getElementById('intro');
-const invitation = document.getElementById('invitation');
-const continueButton = document.getElementById('continueButton');
-const musicButton = document.getElementById('musicButton');
+const reveal = document.getElementById('reveal');
+const continueBtn = document.getElementById('continueBtn');
+const musicBtn = document.getElementById('musicBtn');
 let opened = false;
 
-envelopeButton.addEventListener('click', () => {
-  if (opened) return;
+function openInvitation(){
+  if(opened) return;
   opened = true;
   envelope.classList.add('open');
-  if (navigator.vibrate) navigator.vibrate(35);
-  setTimeout(() => {
-    intro.style.transition = 'opacity .7s ease';
-    intro.style.opacity = '0';
-  }, 1150);
-  setTimeout(() => {
-    intro.style.display = 'none';
-    invitation.classList.add('visible');
-    invitation.setAttribute('aria-hidden', 'false');
-    window.scrollTo({top:0, behavior:'instant'});
-  }, 1800);
-});
-
-continueButton.addEventListener('click', () => {
-  alert('Aquí continuaremos con: Nuestra historia, detalles, dress code, ubicación y RSVP 💙');
-});
-
-musicButton.addEventListener('click', () => {
-  alert('La música “En Vivo y en Directo” se conectará cuando tengamos una fuente de audio autorizada.');
-});
+  setTimeout(()=>{
+    intro.classList.add('done');
+    setTimeout(()=>{
+      document.getElementById('inicio').style.display='none';
+      reveal.classList.add('show');
+      reveal.setAttribute('aria-hidden','false');
+      window.scrollTo({top:0,behavior:'instant'});
+    },650);
+  },2100);
+}
+seal.addEventListener('click', openInvitation);
+document.getElementById('envelopeWrap').addEventListener('click', (e)=>{ if(e.target!==seal) openInvitation(); });
+continueBtn.addEventListener('click', ()=>document.getElementById('contenido').scrollIntoView({behavior:'smooth'}));
+musicBtn.addEventListener('click', ()=>alert('Aquí conectaremos “En Vivo y en Directo” cuando tengamos una fuente de audio autorizada.'));
